@@ -1,103 +1,113 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Thêm Sinh Viên Mới</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Thêm Sinh Viên</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
-        .card { border: none; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); border-radius: 12px; }
-        .form-label { font-weight: 500; color: #495057; }
-        .form-control:focus, .form-select:focus { box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15); border-color: #86b7fe; }
-        .required-asterisk { color: #dc3545; margin-left: 3px; }
-    </style>
 </head>
-<body>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-            <div class="card">
-                <div class="card-header bg-primary text-white py-3 text-center" style="border-radius: 12px 12px 0 0;">
-                    <h4 class="mb-0 fw-bold"><i class="fa-solid fa-user-plus me-2"></i>Thêm Sinh Viên</h4>
-                </div>
-                <div class="card-body p-4">
+<body class="bg-gray-50">
 
-                    <div th:if="${#fields.hasErrors('global')}" class="alert alert-danger d-flex align-items-center">
-                        <i class="fa-solid fa-triangle-exclamation me-2"></i>
-                        <div>
-                            <span th:each="err : ${#fields.errors('global')}" th:text="${err}" class="d-block"></span>
-                        </div>
-                    </div>
+<div class="min-h-screen flex items-center justify-center py-8 px-4">
+    <div class="max-w-md w-full">
 
-                    <form th:action="@{/students/new}" th:object="${student}" method="post">
-
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label for="name" class="form-label">Họ và Tên <span class="required-asterisk">*</span></label>
-                                <input type="text" class="form-control" id="name" th:field="*{name}"
-                                       th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
-                                       placeholder="Nguyễn Văn A">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="code" class="form-label">Mã Sinh Viên <span class="required-asterisk">*</span></label>
-                                <input type="text" class="form-control" id="code" th:field="*{code}"
-                                       th:classappend="${#fields.hasErrors('code')} ? 'is-invalid'"
-                                       placeholder="VD: SV001">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light"><i class="fa-solid fa-envelope text-muted"></i></span>
-                                <input type="email" class="form-control" id="email" th:field="*{email}"
-                                       th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"
-                                       placeholder="example@email.com">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                            </div>
-                        </div>
-
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label for="clazz" class="form-label">Lớp học</label>
-                                <select class="form-select" id="clazz" th:field="*{clazz}">
-                                    <option value="">-- Chọn lớp --</option>
-                                    <option th:each="clazz : ${classes}"
-                                            th:value="${clazz.id}"
-                                            th:text="${clazz.name}"></option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="status" class="form-label">Trạng thái</label>
-                                <select class="form-select" id="status" th:field="*{status}">
-                                    <option th:each="status : ${statuses}"
-                                            th:value="${status}"
-                                            th:text="${status.displayName}"></option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end border-top pt-3">
-                            <a th:href="@{/students}" class="btn btn-light me-md-2 px-4">
-                                <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
-                            </a>
-                            <button type="submit" class="btn btn-primary px-4">
-                                <i class="fa-solid fa-save me-1"></i> Lưu thông tin
-                            </button>
-                        </div>
-                    </form>
-                </div>
+        <div class="text-center mb-8">
+            <div class="mx-auto h-12 w-12 bg-indigo-600 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-user-plus text-white text-xl"></i>
             </div>
+            <h2 class="mt-4 text-2xl font-bold text-gray-900">
+                Thêm sinh viên mới
+            </h2>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+
+            <form th:action="@{/students/new}" th:object="${student}" method="post">
+
+                <!-- Tên sinh viên -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-1">
+                        Họ và Tên <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" th:field="*{name}"
+                           class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                           placeholder="Nguyễn Văn A">
+                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                       class="text-red-500 text-xs mt-1"></p>
+                </div>
+
+                <!-- Mã sinh viên -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-1">
+                        Mã Sinh Viên <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" th:field="*{code}"
+                           class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                           placeholder="SV001">
+                    <p th:if="${#fields.hasErrors('code')}" th:errors="*{code}"
+                       class="text-red-500 text-xs mt-1"></p>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-1">
+                        Email
+                    </label>
+                    <input th:field="*{email}" type="email"
+                           class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                           placeholder="email@example.com">
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                       class="text-red-500 text-xs mt-1"></p>
+                </div>
+
+                <!-- Lớp học -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-1">
+                        Lớp học
+                    </label>
+                    <select th:field="*{clazz}"
+                            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="">-- Chọn lớp --</option>
+                        <option th:each="clazz : ${classes}"
+                                th:value="${clazz.id}"
+                                th:text="${clazz.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Trạng thái -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-1">
+                        Trạng thái
+                    </label>
+                    <label>
+                        <select th:field="*{status}"
+                                class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option th:each="status : ${statuses}"
+                                    th:value="${status}"
+                                    th:text="${status.getDisplayName()}">
+                            </option>
+                        </select>
+                    </label>
+                </div>
+
+                <!-- Buttons giữ nguyên -->
+                <div class="flex justify-between pt-4 border-t">
+                    <a th:href="@{/students}"
+                       class="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition">
+                        Hủy bỏ
+                    </a>
+                    <button type="submit"
+                            class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+                        <i class="fa-solid fa-save mr-2"></i>Lưu sinh viên
+                    </button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -22,12 +22,12 @@ public class Student {
 
 
     @Enumerated(EnumType.STRING)
-    private StudentType status;
+    private StudentStatus status;
 
     @Email(message = "Email không hợp lệ")
     private String email;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id")
     private Clazz clazz;
 
